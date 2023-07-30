@@ -27,3 +27,14 @@
           font-family: Akzidenz, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 }
+@layer components{
+  #app {
+    @apply h-screen flex flex-col justify-center items-center dark:text-white dark:bg-zinc-800;
+  }
+  .logo {
+    @apply text-2xl sm:text-4xl md:text-5xl font-bold;
+  }
+  .button-primary {
+    @apply dark:bg-indigo-400 dark:hover:bg-indigo-600 bg-slate-300 rounded-md font-medium px-5 py-2 hover:bg-slate-200;
+  }
+}
