@@ -44,4 +44,8 @@
   .letter {
     @apply text-3xl mx-2 font-medium
   }
+
+  .keyboard-letter {
+    @apply text-3xl mx-2 font-medium border-2 border-gray-300 rounded-md px-2 py-1 hover:bg-gray-200 mt-3
+  }
 }

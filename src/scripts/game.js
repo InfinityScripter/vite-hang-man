@@ -38,11 +38,20 @@ return  `<div id='placeholders' class='placeholders-wrapper'>${placeholdersHTML}
 }
 
 
+const createKeyboardHTML = () => {
+    const keyboardHTML = KEYBOARD_LETTERS.reduce((acc, letter) => {
+        acc += `<button class="keyboard-letter">${letter}</button>`;
+        return acc;
+    }, "");
+    return `<div id='keyboard' class='keyboard-wrapper'>${keyboardHTML}</div>`
+}
+
 export const startGame = () => {
 const randomIndex = Math.floor(Math.random() * WORDS.length);
 const wordToGuess = WORDS[randomIndex]
 sessionStorage.setItem("wordToGuess", wordToGuess);
 gameDiv.innerHTML = createPlaceholdersHTML();
+gameDiv.innerHTML += createKeyboardHTML();
 }
 
 
