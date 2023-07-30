@@ -10,12 +10,16 @@ sessionStorage.setItem("wordToGuess", wordToGuess);
 
 // gameDiv.innerHTML = `<h1>${wordToGuess.length}</h1>`;
 
-let acc = ''
+let placeholdersHTML = ''
 for (let i = 0; i < wordToGuess.length; i++) {
-    acc = acc + ' _ '  
+    placeholdersHTML += `<h1 id="letter_${i}" class="letter"> _ </h1>`
 };
+
+
+
 console.log(wordToGuess);
-gameDiv.innerHTML = acc
+
+gameDiv.innerHTML= `<div id='placeholders' class='placeholders-wrapper'>${placeholdersHTML}</div>`
 }
 
 
