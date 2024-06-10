@@ -7,20 +7,20 @@
     font-family: Akzidenz;
     font-weight: 700;
     font-style: normal;
-    src: url('/public/fonts/akzidenz/AkzidenzGroteskPro-BoldEx.otf') format('opentype');
+    src: url('/fonts/akzidenz/AkzidenzGroteskPro-BoldEx.otf') format('opentype');
   }
 
         @font-face {
           font-family: Akzidenz;
           font-weight: 500;
           font-style: normal;
-          src: url('/public/fonts/akzidenz/AkzidenzGroteskPro-Md.otf') format('opentype');
+          src: url('/fonts/akzidenz/AkzidenzGroteskPro-Md.otf') format('opentype');
         }
         @font-face {
           font-family: Akzidenz;
           font-weight: 400;
           font-style: normal;
-          src: url('/public/fonts/akzidenz/AkzidenzGroteskPro-Regular.otf') format('opentype');
+          src: url('/fonts/akzidenz/AkzidenzGroteskPro-Regular.otf') format('opentype');
         }
 
         html {
@@ -39,13 +39,15 @@
   }
 
   .placeholders-wrapper{
-    @apply flex flex-row 
+    @apply flex flex-row
   }
   .letter {
     @apply text-3xl mx-2 font-medium
   }
-
-  .keyboard-letter {
-    @apply text-3xl mx-2 font-medium border-2 border-gray-300 rounded-md px-2 py-1 hover:bg-gray-200 mt-3
+.keyboard {
+  @apply max-w-2xl mt-5 flex flex-wrap justify-center
+}
+  .keyboard-button {
+    @apply w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 flex justify-center items-center rounded-md bg-slate-400 hover:bg-slate-200 m-1
   }
 }
