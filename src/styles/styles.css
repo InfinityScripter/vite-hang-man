@@ -35,7 +35,7 @@
     @apply text-2xl sm:text-4xl md:text-5xl font-bold;
   }
   .button-primary {
-    @apply dark:bg-indigo-400 dark:hover:bg-indigo-600 bg-slate-300 rounded-md font-medium px-5 py-2 hover:bg-slate-200;
+    @apply dark:bg-indigo-300 dark:hover:bg-indigo-600 bg-slate-200 rounded-md font-medium px-5 py-2 hover:bg-slate-200;
   }
 
   .placeholders-wrapper{
