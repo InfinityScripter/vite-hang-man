@@ -50,4 +50,7 @@
   .keyboard-button {
     @apply w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 flex justify-center items-center rounded-md bg-slate-400 hover:bg-slate-200 m-1
   }
+  .lives-left {
+    @apply text-3xl font-medium mt-5 text-red-600
+  }
 }
