@@ -4,8 +4,8 @@ const gameDiv = document.getElementById('game') as HTMLElement;
 const logoH1 = document.getElementById('logo') as HTMLElement;
 let livesLeft: number;
 let winCount: number;
-let incorrectGuesses: number = 0;  // Счетчик неудачных попыток
-let currentCategory: string | null = null; // Текущая категория слова
+let incorrectGuesses: number = 0;
+let currentCategory: string | null = null;
 
 const quitButton: HTMLButtonElement = document.createElement('button');
 quitButton.id = 'quitButton';
@@ -14,6 +14,32 @@ quitButton.textContent = 'Quit';
 quitButton.onclick = () => {
     if (confirm('Are you sure you want to quit?')) {
         stopGame('quit');
+    }
+};
+
+
+const displayStats = (): void => {
+    const stats = localStorage.getItem('stats');
+    if (stats) {
+        const statsObj = JSON.parse(stats);
+        const { wins, losses } = statsObj;
+
+
+        if (wins > 0 || losses > 0) {
+            let statsDiv = document.getElementById('stats');
+            if (!statsDiv) {
+                statsDiv = document.createElement('div');
+                statsDiv.id = 'stats';
+                statsDiv.className = 'stats';
+                gameDiv.insertBefore(statsDiv, gameDiv.firstChild);
+            }
+            statsDiv.innerHTML = `
+<div class="flex flex-row gap-5">
+                <p class="font-semibold text-emerald-500">wins: ${wins}</p>
+                <p class=" font-semibold text-red-600">losses: ${losses}</p>
+     </div>
+            `;
+        }
     }
 };
 
@@ -63,7 +89,7 @@ const checkLetter = (letter: string): void => {
         const livesCounter = document.getElementById('lives-left');
         if (!livesCounter) return;
         livesLeft -= 1;
-        incorrectGuesses += 1;  // Увеличиваем счетчик неудачных попыток
+        incorrectGuesses += 1;  
         livesCounter.innerText = livesLeft.toString();
 
         const hangmanIMG = document.getElementById('hangmanIMG') as HTMLImageElement;
@@ -73,7 +99,7 @@ const checkLetter = (letter: string): void => {
         if (incorrectGuesses === 3 && currentCategory) {
             const hintDiv = document.createElement('div');
             hintDiv.id = 'hint';
-            hintDiv.className = 'hint';
+            hintDiv.className = 'hint mt-5 font-semibold text-sm text-gray-500';
             hintDiv.innerText = `Hint: The category is ${currentCategory}`;
             gameDiv.insertBefore(hintDiv, gameDiv.firstChild);
         }
@@ -107,12 +133,14 @@ const stopGame = (status: string): void => {
     const lives = document.getElementById('lives');
     const quitBtn = document.getElementById("quitButton");
     const hint = document.getElementById('hint');
+    const statsDiv = document.getElementById('stats');
 
     placeholders?.remove();
     keyboard?.remove();
     lives?.remove();
     quitBtn?.remove();
     hint?.remove();
+    statsDiv?.remove();
 
     let resultMessage: string;
     let resultImageSrc: string | undefined;
@@ -150,6 +178,7 @@ const stopGame = (status: string): void => {
     restartBtn?.addEventListener('click', () => {
         startGame();
     });
+
 };
 
 export const startGame = (): void => {
@@ -164,7 +193,7 @@ export const startGame = (): void => {
     sessionStorage.setItem("wordToGuess", wordToGuess);
     gameDiv.innerHTML = createPlaceholdersHTML();
 
-    gameDiv.innerHTML += `<h2 id="lives">Lives:
+    gameDiv.innerHTML += `<h2 class="font-semibold" id="lives">Lives:
 <span 
 class="lives-left"
 id="lives-left">
@@ -185,11 +214,12 @@ ${livesLeft}</span></h2>`;
     gameDiv.prepend(hangmanIMG);
 
     gameDiv.insertAdjacentElement('afterend', quitButton);
+
+    displayStats();
 }
 
-
 const updateUserStats = (result: 'wins' | 'losses'): void => {
-    const stats:string|null = localStorage.getItem('stats');
+    const stats = localStorage.getItem('stats');
     let statsObj = stats ? JSON.parse(stats) : { wins: 0, losses: 0 };
     statsObj[result] += 1;
     localStorage.setItem('stats', JSON.stringify(statsObj));
