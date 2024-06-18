@@ -4,6 +4,16 @@ const gameDiv = document.getElementById('game');
 const logoH1 = document.getElementById('logo');
 let livesLeft;
 let winCount;
+const quitButton = document.createElement('button');
+quitButton.id = 'quitButton';
+quitButton.className = 'quit-button';
+quitButton.textContent = 'Quit';
+quitButton.onclick = () => {
+    confirm('Are you sure you want to quit?')
+        ? stopGame('quit')
+        : null;
+};
+
 const createPlaceholdersHTML = () => {
     const wordToGuess = sessionStorage.getItem("wordToGuess");
 
@@ -45,7 +55,6 @@ const createHangmanIMG = () => {
 const checkLetter = (letter) => {
     const wordToGuess = sessionStorage.getItem("wordToGuess");
     const inputLetter = letter.toLowerCase();
-    console.log(wordToGuess)
     if (!wordToGuess.includes(inputLetter)) {
         const livesCounter = document.getElementById('lives-left');
         livesLeft -= 1;
@@ -79,6 +88,8 @@ const stopGame = (status) => {
     document.getElementById('placeholders').remove();
     document.getElementById('keyboard').remove();
     document.getElementById('lives').remove();
+    document.getElementById("quitButton").remove();
+
 
     let resultMessage
     let resultImageSrc
@@ -91,13 +102,24 @@ const stopGame = (status) => {
         resultMessage = 'You lost!';
         resultImageSrc = './img/hg-10.png';
     }
+    if (status === 'quit') {
+        logoH1.classList.remove('logo-sm');
+        document.getElementById('hangmanIMG').style.display = 'none';
+
+        resultMessage = 'Do you want start again?';
+
+    }
 
     const hangmanIMG = document.getElementById('hangmanIMG');
     hangmanIMG.src = resultImageSrc;
-
-    gameDiv.innerHTML += `
-        <h2 class="result-header ${status}">${resultMessage}</h2>
+    if (status !== 'quit') {
+        gameDiv.innerHTML += `
         <h3 class="result-word">The word was: ${sessionStorage.getItem("wordToGuess")}</h3>
+        
+    `;
+    }
+    gameDiv.innerHTML += `
+        <h2 id="header" class="result-header ${status}">${resultMessage}</h2>
         <button id="restart" class="button-primary mt-5">Restart</button>
     `;
 
@@ -134,6 +156,8 @@ ${wordToGuess.length}</span></h2>`;
 
     const hangmanIMG = createHangmanIMG();
     gameDiv.prepend(hangmanIMG);
+
+    gameDiv.insertAdjacentElement('afterend', quitButton);
 }
 
 
