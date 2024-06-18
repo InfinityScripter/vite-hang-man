@@ -53,4 +53,8 @@
   .lives-left {
     @apply text-3xl font-medium mt-5 text-red-600
   }
+
+  .hangmanIMG {
+    @apply w-40 h-40 sm:w-60 sm:h-60 md:w-80 md:h-80 mt-5 flex justify-center items-center
+  }
 }

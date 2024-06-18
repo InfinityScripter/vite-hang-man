@@ -34,10 +34,10 @@ return keyboard;}
 const createHangmanIMG = () => {
 const hangmanIMG = document.createElement('img');
 hangmanIMG.id = 'hangmanIMG';
+hangmanIMG.alt = 'HangmanIMG';
 hangmanIMG.className = 'hangmanIMG';
-hangmanIMG.src = './images/hg-0.png';
-const hangmanIMGHTML = hangmanIMG;
-return hangmanIMGHTML;
+hangmanIMG.src = './img/hg-0.png';
+return hangmanIMG;
 }
 
 export const startGame = () => {
@@ -57,10 +57,12 @@ const keyboardDiv = createKeyboardHTML();
 gameDiv.appendChild(keyboardDiv);
 
 keyboardDiv.addEventListener("click", (e) => {
-console.log(e.target.id,'event');})
+console.log(e.target.id,'event');
+    console.log(event.target, 'event.target');
+})
 
 const hangmanIMG = createHangmanIMG();
-gameDiv.appendChild(hangmanIMG);
+gameDiv.prepend(hangmanIMG);
 }
 
 
