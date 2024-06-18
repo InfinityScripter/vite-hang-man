@@ -1,6 +1,7 @@
 import { WORDS, KEYBOARD_LETTERS } from "./CONSTS.JS";
 
 const gameDiv = document.getElementById('game');
+const logoH1 = document.getElementById('logo');
 
 const createPlaceholdersHTML = () => {
     const wordToGuess = sessionStorage.getItem("wordToGuess");
@@ -41,6 +42,7 @@ return hangmanIMG;
 }
 
 export const startGame = () => {
+logoH1.classList.add('logo-sm');
 const randomIndex = Math.floor(Math.random() * WORDS.length);
 const wordToGuess = WORDS[randomIndex]
 sessionStorage.setItem("wordToGuess", wordToGuess);
