@@ -4,6 +4,9 @@ const gameDiv = document.getElementById('game') as HTMLElement;
 const logoH1 = document.getElementById('logo') as HTMLElement;
 let livesLeft: number;
 let winCount: number;
+let incorrectGuesses: number = 0;  // Счетчик неудачных попыток
+let currentCategory: string | null = null; // Текущая категория слова
+
 const quitButton: HTMLButtonElement = document.createElement('button');
 quitButton.id = 'quitButton';
 quitButton.className = 'quit-button';
@@ -14,6 +17,7 @@ quitButton.onclick = () => {
     }
 };
 
+// Создаем элементы для placeholders
 const createPlaceholdersHTML = (): string => {
     const wordToGuess = sessionStorage.getItem("wordToGuess");
     if (!wordToGuess) {
@@ -59,14 +63,24 @@ const checkLetter = (letter: string): void => {
         const livesCounter = document.getElementById('lives-left');
         if (!livesCounter) return;
         livesLeft -= 1;
+        incorrectGuesses += 1;  // Увеличиваем счетчик неудачных попыток
         livesCounter.innerText = livesLeft.toString();
 
         const hangmanIMG = document.getElementById('hangmanIMG') as HTMLImageElement;
         if (!hangmanIMG) return;
         hangmanIMG.src = `./img/hg-${10 - livesLeft}.png`;
 
+        if (incorrectGuesses === 3 && currentCategory) {
+            const hintDiv = document.createElement('div');
+            hintDiv.id = 'hint';
+            hintDiv.className = 'hint';
+            hintDiv.innerText = `Hint: The category is ${currentCategory}`;
+            gameDiv.insertBefore(hintDiv, gameDiv.firstChild);
+        }
+
         if (livesLeft === 0) {
             stopGame('lose');
+            updateUserStats('losses');
         }
     } else {
         const wordArray = Array.from(wordToGuess);
@@ -75,6 +89,7 @@ const checkLetter = (letter: string): void => {
                 winCount += 1;
                 if (winCount === wordArray.length) {
                     stopGame('win');
+                    updateUserStats('wins');
                     return;
                 }
                 const letterElement = document.getElementById(`letter_${i}`);
@@ -91,11 +106,13 @@ const stopGame = (status: string): void => {
     const keyboard = document.getElementById('keyboard');
     const lives = document.getElementById('lives');
     const quitBtn = document.getElementById("quitButton");
+    const hint = document.getElementById('hint');
 
     placeholders?.remove();
     keyboard?.remove();
     lives?.remove();
     quitBtn?.remove();
+    hint?.remove();
 
     let resultMessage: string;
     let resultImageSrc: string | undefined;
@@ -115,7 +132,7 @@ const stopGame = (status: string): void => {
     }
 
     const hangmanIMG = document.getElementById('hangmanIMG') as HTMLImageElement;
-    if (hangmanIMG) if (typeof resultImageSrc === "string") {
+    if (hangmanIMG && typeof resultImageSrc === "string") {
         hangmanIMG.src = resultImageSrc;
     }
 
@@ -138,9 +155,12 @@ const stopGame = (status: string): void => {
 export const startGame = (): void => {
     logoH1?.classList.add('logo-sm');
     const randomIndex = Math.floor(Math.random() * WORDS.length);
-    const wordToGuess = WORDS[randomIndex];
+    const selectedWord = WORDS[randomIndex];
+    const wordToGuess = selectedWord.word;
+    currentCategory = selectedWord.category;
     livesLeft = 10;
     winCount = 0;
+    incorrectGuesses = 0;
     sessionStorage.setItem("wordToGuess", wordToGuess);
     gameDiv.innerHTML = createPlaceholdersHTML();
 
@@ -148,7 +168,7 @@ export const startGame = (): void => {
 <span 
 class="lives-left"
 id="lives-left">
-${wordToGuess.length}</span></h2>`;
+${livesLeft}</span></h2>`;
 
     const keyboardDiv = createKeyboardHTML();
     gameDiv.appendChild(keyboardDiv);
@@ -165,4 +185,12 @@ ${wordToGuess.length}</span></h2>`;
     gameDiv.prepend(hangmanIMG);
 
     gameDiv.insertAdjacentElement('afterend', quitButton);
+}
+
+
+const updateUserStats = (result: 'wins' | 'losses'): void => {
+    const stats:string|null = localStorage.getItem('stats');
+    let statsObj = stats ? JSON.parse(stats) : { wins: 0, losses: 0 };
+    statsObj[result] += 1;
+    localStorage.setItem('stats', JSON.stringify(statsObj));
 }
