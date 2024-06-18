@@ -3,6 +3,7 @@ import {KEYBOARD_LETTERS, WORDS} from "./CONSTS.JS";
 const gameDiv = document.getElementById('game');
 const logoH1 = document.getElementById('logo');
 let livesLeft;
+let winCount;
 const createPlaceholdersHTML = () => {
     const wordToGuess = sessionStorage.getItem("wordToGuess");
 
@@ -52,23 +53,65 @@ const checkLetter = (letter) => {
 
         const hangmanIMG = document.getElementById('hangmanIMG');
         hangmanIMG.src = `./img/hg-${10 - livesLeft}.png`;
+
+        if (livesLeft === 0) {
+            stopGame('lose');
+        }
     } else {
         const wordArray = Array.from(wordToGuess);
         wordArray.forEach((wordLetter, i) => {
             if (wordLetter === inputLetter) {
+                winCount += 1;
+                if (winCount === wordArray.length) {
+                    stopGame('win');
+                    return;
+                }
                 const letterElement = document.getElementById(`letter_${i}`);
                 letterElement.innerText = inputLetter.toUpperCase();
             }
         });
+
     }
 
 }
+
+const stopGame = (status) => {
+    document.getElementById('placeholders').remove();
+    document.getElementById('keyboard').remove();
+    document.getElementById('lives').remove();
+
+    let resultMessage
+    let resultImageSrc
+
+    if (status === 'win') {
+        resultMessage = 'You won!';
+        resultImageSrc = './img/hg-win.png';
+    }
+    if (status === 'lose') {
+        resultMessage = 'You lost!';
+        resultImageSrc = './img/hg-10.png';
+    }
+
+    const hangmanIMG = document.getElementById('hangmanIMG');
+    hangmanIMG.src = resultImageSrc;
+
+    gameDiv.innerHTML += `
+        <h2 class="result-header ${status}">${resultMessage}</h2>
+        <h3 class="result-word">The word was: ${sessionStorage.getItem("wordToGuess")}</h3>
+        <button id="restart" class="button-primary mt-5">Restart</button>
+    `;
+
+    document.getElementById('restart').addEventListener('click', () => {
+        startGame();
+    });
+};
 
 export const startGame = () => {
     logoH1.classList.add('logo-sm');
     const randomIndex = Math.floor(Math.random() * WORDS.length);
     const wordToGuess = WORDS[randomIndex]
     livesLeft = 10
+    winCount = 0;
     sessionStorage.setItem("wordToGuess", wordToGuess);
     gameDiv.innerHTML = createPlaceholdersHTML();
 
