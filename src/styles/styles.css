@@ -3,62 +3,69 @@
 @tailwind utilities;
 
 @layer base {
-  @font-face {
-    font-family: Akzidenz;
-    font-weight: 700;
-    font-style: normal;
-    src: url('/fonts/akzidenz/AkzidenzGroteskPro-BoldEx.otf') format('opentype');
-  }
+    @font-face {
+        font-family: Akzidenz;
+        font-weight: 700;
+        font-style: normal;
+        src: url('/fonts/akzidenz/AkzidenzGroteskPro-BoldEx.otf') format('opentype');
+    }
 
-        @font-face {
-          font-family: Akzidenz;
-          font-weight: 500;
-          font-style: normal;
-          src: url('/fonts/akzidenz/AkzidenzGroteskPro-Md.otf') format('opentype');
-        }
-        @font-face {
-          font-family: Akzidenz;
-          font-weight: 400;
-          font-style: normal;
-          src: url('/fonts/akzidenz/AkzidenzGroteskPro-Regular.otf') format('opentype');
-        }
+    @font-face {
+        font-family: Akzidenz;
+        font-weight: 500;
+        font-style: normal;
+        src: url('/fonts/akzidenz/AkzidenzGroteskPro-Md.otf') format('opentype');
+    }
+    @font-face {
+        font-family: Akzidenz;
+        font-weight: 400;
+        font-style: normal;
+        src: url('/fonts/akzidenz/AkzidenzGroteskPro-Regular.otf') format('opentype');
+    }
 
-        html {
-          font-family: Akzidenz, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
+    html {
+        font-family: Akzidenz, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
 }
-@layer components{
-  #app {
-    @apply h-screen flex flex-col justify-center items-center dark:text-white dark:bg-zinc-800;
-  }
-  .logo {
-    @apply text-xl sm:text-4xl md:text-5xl font-bold;
-  }
 
-  .logo-sm {
-    @apply text-xl sm:text-2xl md:text-2xl font-semibold;
-  }
-  .button-primary {
-    @apply flex justify-center items-center dark:bg-indigo-300 dark:hover:bg-indigo-600 bg-slate-200 rounded-md font-medium px-5 py-2 hover:bg-slate-200;
-  }
+@layer components {
+    #app {
+        @apply h-screen flex flex-col justify-center items-center dark:text-white dark:bg-zinc-800;
+    }
 
-  .placeholders-wrapper{
-    @apply flex flex-row
-  }
-  .letter {
-    @apply text-3xl mx-2 font-medium
-  }
-.keyboard {
-  @apply max-w-2xl mt-5 flex flex-wrap justify-center
-}
-  .keyboard-button {
-    @apply w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 flex justify-center items-center rounded-md bg-slate-400 hover:bg-slate-200 m-1
-  }
-  .lives-left {
-    @apply text-3xl font-medium mt-5 text-red-600
-  }
+    .logo {
+        @apply text-xl sm:text-4xl md:text-5xl font-bold;
+    }
 
-  .hangmanIMG {
-    @apply w-40 h-40 sm:w-60 sm:h-60 md:w-80 md:h-80 mt-5 flex justify-center items-center
-  }
+    .logo-sm {
+        @apply text-xl sm:text-2xl md:text-2xl font-semibold;
+    }
+
+    .button-primary {
+        @apply flex justify-center items-center dark:bg-indigo-300 dark:hover:bg-indigo-600 bg-slate-200 rounded-md font-medium px-5 py-2 hover:bg-slate-200;
+    }
+
+    .placeholders-wrapper {
+        @apply flex flex-row
+    }
+
+    .letter {
+        @apply text-3xl mx-2 font-medium
+    }
+
+    .keyboard {
+        @apply max-w-2xl mt-5 flex flex-wrap justify-center
+    }
+
+    .keyboard-button {
+        @apply w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 flex justify-center items-center rounded-md bg-slate-400 hover:bg-slate-200 m-1 disabled:opacity-20 disabled:cursor-not-allowed
+    }
+
+    .lives-left {
+        @apply text-3xl font-medium mt-5 text-red-600
+    }
+
+    .hangmanIMG {
+        @apply w-40 h-40 sm:w-60 sm:h-60 md:w-80 md:h-80 mt-5 flex justify-center items-center
+    }
 }
